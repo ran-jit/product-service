@@ -7,10 +7,11 @@ Develop a REST API to moderate/validate the comment text to prevent customers fr
 "content-type": "application/json"
 
 #### Request Payload
+```json
 {
     "comment": "{comment-text}"
 }
-
+```
 #### Success Response (200 OK)
 ```json
 {
@@ -44,3 +45,4 @@ Develop a REST API to moderate/validate the comment text to prevent customers fr
 #### Testing
 1. Run [Application.java](https://github.com/ran-jit/product-service/blob/master/src/main/java/com/product/Application.java) to start the service.
 
+- [Reference screenshots](https://github.com/ran-jit/product-service/tree/master/src/main/resources/reference-screenshots)
