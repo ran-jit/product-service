@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 /** author: Ranjith Manickam @ 21 July' 2019 */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProductCommentTests {
+public class ProductCommentAPITests {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    public ProductCommentTests() {
+    public ProductCommentAPITests() {
     }
 
     @Test
