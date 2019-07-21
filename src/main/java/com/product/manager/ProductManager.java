@@ -1,10 +1,10 @@
 package com.product.manager;
 
 import com.product.commons.Preconditions;
+import com.product.entry.CommentEntry;
 import com.product.exception.ErrorType;
 import com.product.exception.ServiceException;
 import com.product.handler.ProductCommentHandler;
-import com.product.entry.CommentEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

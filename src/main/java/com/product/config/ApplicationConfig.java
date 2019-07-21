@@ -2,10 +2,10 @@ package com.product.config;
 
 import com.product.data.Dataset;
 import com.product.data.TrieNode;
+import com.product.data.badwords.DatasetLoader;
 import com.product.data.local.LocalDataset;
 import com.product.data.redis.RedisDataset;
-import com.product.data.badwords.DatasetLoader;
-import com.product.ext.ServiceExceptionMapper;
+import com.product.exception.ServiceExceptionMapper;
 import com.product.resource.ProductResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.beans.factory.annotation.Value;

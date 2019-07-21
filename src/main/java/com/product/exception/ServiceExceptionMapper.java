@@ -1,8 +1,6 @@
-package com.product.ext;
+package com.product.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.product.exception.ErrorCode;
-import com.product.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +34,7 @@ public class ServiceExceptionMapper implements ExceptionMapper<ServiceException>
         private ErrorCode error;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Response toResponse(ServiceException ex) {
         return Response
