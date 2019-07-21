@@ -28,6 +28,7 @@
         <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
         <lombok.version>1.18.8</lombok.version>
         <logback-classic.version>1.2.3</logback-classic.version>
+        <maven-compiler.version>3.7.0</maven-compiler.version>
     </properties>
 
     <dependencyManagement>
@@ -83,13 +84,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>com.product.Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

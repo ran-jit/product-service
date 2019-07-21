@@ -19,7 +19,8 @@ public class StopWordsHandler {
 
     /** To initialize the stop words. */
     public void init() throws IOException, URISyntaxException {
-        stopWords.addAll(Files.lines(Paths.get(ClassLoader.getSystemResource(STOPWORDS_FILE).toURI())).collect(Collectors.toList()));
+        stopWords.addAll(Files.lines(Paths.get(getClass().getClassLoader().getResource(STOPWORDS_FILE).toURI()))
+                .collect(Collectors.toList()));
     }
 
     /** To remove the stop words from the input. */

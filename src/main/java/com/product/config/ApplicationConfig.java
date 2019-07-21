@@ -52,7 +52,7 @@ public class ApplicationConfig {
                 TrieNode node = new TrieNode();
 
                 Path filePath = Paths.get(this.badWordsFile).toFile().exists() ? Paths.get(this.badWordsFile) :
-                        Paths.get(ClassLoader.getSystemResource(this.badWordsFile).toURI());
+                        Paths.get(getClass().getClassLoader().getResource("data/bad-words.txt").toURI());
                 DatasetLoader.build(filePath, node);
                 return new LocalDataset(node);
             }
