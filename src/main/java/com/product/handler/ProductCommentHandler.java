@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
 @Component
 public class ProductCommentHandler {
 
-    private final ObjectionableContentHandler handler;
+    private final StopWordsHandler stopWordsHandler;
+    private final ObjectionableContentHandler objectionableContentHandler;
 
     @Autowired
-    public ProductCommentHandler(ObjectionableContentHandler handler) {
-        this.handler = handler;
+    public ProductCommentHandler(StopWordsHandler stopWordsHandler, ObjectionableContentHandler objectionableContentHandler) {
+        this.stopWordsHandler = stopWordsHandler;
+        this.objectionableContentHandler = objectionableContentHandler;
     }
 
     /**
@@ -31,8 +33,13 @@ public class ProductCommentHandler {
         // preprocess the comment
         String comment = preprocess(entry.getComment());
 
+        // comment has only stop words (ex: hello)
+        if (comment.isEmpty()) {
+            return false;
+        }
+
         // check preprocessed comment has bad words
-        return this.handler.isObjectionableContent(comment);
+        return this.objectionableContentHandler.isObjectionableContent(comment);
     }
 
     /**
@@ -43,14 +50,14 @@ public class ProductCommentHandler {
      * @param comment - input comment to be processed.
      * @return - returns the pre-processed comment.
      */
-    private static String preprocess(String comment) {
+    private String preprocess(String comment) {
         // tokenize the comment
         List<String> words = Collections.list(new StringTokenizer(comment)).stream()
-                .map(token -> ((String) token).toLowerCase())
+                .map(token -> ((String) token).toLowerCase().trim())
                 .collect(Collectors.toList());
 
         // removing all stop words
-        StopWordsHandler.removeAllStopWords(words);
+        this.stopWordsHandler.removeAllStopWords(words);
 
         return String.join(" ", words);
     }

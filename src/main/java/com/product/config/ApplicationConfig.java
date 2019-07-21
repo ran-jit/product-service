@@ -6,8 +6,11 @@ import com.product.data.badwords.DatasetLoader;
 import com.product.data.local.LocalDataset;
 import com.product.data.redis.RedisDataset;
 import com.product.exception.ServiceExceptionMapper;
+import com.product.handler.StopWordsHandler;
 import com.product.resource.ProductResource;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +21,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /** author: Ranjith Manickam @ 21 July' 2019 */
 @Configuration
 public class ApplicationConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfig.class);
 
     private final String badWordsFile;
     private final Boolean isLocalStorageMode;
@@ -41,15 +47,33 @@ public class ApplicationConfig {
     @Bean
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
     public Dataset getDataset() throws IOException, URISyntaxException {
-        if (Boolean.TRUE.equals(this.isLocalStorageMode)) {
-            TrieNode node = new TrieNode();
+        try {
+            if (Boolean.TRUE.equals(this.isLocalStorageMode)) {
+                TrieNode node = new TrieNode();
 
-            Path filePath = Paths.get(this.badWordsFile).toFile().exists() ? Paths.get(this.badWordsFile) :
-                    Paths.get(ClassLoader.getSystemResource(this.badWordsFile).toURI());
-            DatasetLoader.build(filePath, node);
-            return new LocalDataset(node);
+                Path filePath = Paths.get(this.badWordsFile).toFile().exists() ? Paths.get(this.badWordsFile) :
+                        Paths.get(ClassLoader.getSystemResource(this.badWordsFile).toURI());
+                DatasetLoader.build(filePath, node);
+                return new LocalDataset(node);
+            }
+
+            return new RedisDataset();
+        } catch (IOException | URISyntaxException ex) {
+            LOGGER.error("Error initializing application config - Dataset", ex);
+            throw ex;
         }
+    }
 
-        return new RedisDataset();
+    @Bean
+    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
+    public StopWordsHandler stopWordsHandler() throws IOException, URISyntaxException {
+        try {
+            StopWordsHandler handler = new StopWordsHandler(new ArrayList<>());
+            handler.init();
+            return handler;
+        } catch (IOException | URISyntaxException ex) {
+            LOGGER.error("Error initializing application config - StopWordsHandler", ex);
+            throw ex;
+        }
     }
 }
