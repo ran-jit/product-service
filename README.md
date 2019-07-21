@@ -7,10 +7,11 @@ Develop a REST API to moderate/validate the comment text to prevent customers fr
 "content-type": "application/json"
 
 #### Request Payload
+```json
 {
     "comment": "{comment-text}"
 }
-
+```
 #### Success Response (200 OK)
 ```json
 {
