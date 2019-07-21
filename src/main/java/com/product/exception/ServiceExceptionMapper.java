@@ -26,6 +26,8 @@ public class ServiceExceptionMapper implements ExceptionMapper<ServiceException>
     @AllArgsConstructor
     private static class Error implements Serializable {
 
+        private Boolean status;
+
         private HttpStatus httpStatus;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -40,6 +42,7 @@ public class ServiceExceptionMapper implements ExceptionMapper<ServiceException>
         return Response
                 .status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(Error.builder()
+                        .status(Boolean.FALSE)
                         .error(ex.getErrorCode())
                         .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
                         .timestamp(LocalDateTime.now())
